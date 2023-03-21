@@ -82,4 +82,4 @@ class ScoreTracker:
         ax[1].set_ylabel("Recall")
         ax[1].set_ylim([0, 1])
 
-        return fig
+        plt.show()
