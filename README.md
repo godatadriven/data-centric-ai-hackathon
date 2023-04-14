@@ -52,7 +52,7 @@ jupyter lab .
 
 ## Rules
 
-Cheating is easy! Just download the original MNIST data set or download a pre-fitted model are just two of those. Keep in
+Cheating is easy! Just download the original MNIST data set or download a pre-fitted model are two examples. Keep in
 mind that the goal of the hackathon is to get experience with data centric AI. If one of your solutions feels like 
 cheating, consider the following: would you be able to perform this trick when the data set was not available online?
 
