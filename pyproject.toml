@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "pip>=23.0.*"]
+build-backend = "setuptools.build_meta"
+
+# Ref.: https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#declaring-project-metadata
+[project]
+name = "data-centric-ai-hackathon"
+description = "Data Centric AI Hackathon"
+readme = "README.md"
+requires-python = "==3.10.*"
+
+# Note: This is the minimum set of packages required to pass all the tests and to support end-to-end-stream.
+dependencies = [
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "lightning",
+    "jupyterlab",
+    "loguru",
+    "matplotlib",
+    "ipywidgets",
+    "pandas",
+]
+
+dynamic = ["version"]

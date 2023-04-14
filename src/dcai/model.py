@@ -52,7 +52,7 @@ class SimpleMnistModel(nn.Module):
         return 10
 
 
-class SimpleMnistFitter(pl.LightningModule):
+class LitSimpleMnist(pl.LightningModule):
     def __init__(self):
         super().__init__()
         self.model = SimpleMnistModel()

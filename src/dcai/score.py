@@ -7,7 +7,7 @@ from pytorch_lightning.callbacks import RichProgressBar
 from torch.utils.data import DataLoader
 
 from dcai.dataset import TrainDataset, ValidationDataset
-from dcai.model import SimpleMnistFitter
+from dcai.model import LitSimpleMnist
 
 
 @dataclass
@@ -25,22 +25,25 @@ class ScoreTracker:
         self.team_name = team_name
         self.all_attempts: List[Attempt] = []
 
-    def train_and_validate_model(self, train_dataset: TrainDataset, plot_confusion_matrix: bool = True) -> Attempt:
+    def train_and_score_model(self, train_dataset: TrainDataset, plot_confusion_matrix: bool = True) -> LitSimpleMnist:
 
         progress_bar = RichProgressBar()
 
         vds = ValidationDataset()
-        model = SimpleMnistFitter()
+        model = LitSimpleMnist()
         trainer = pl.Trainer(limit_train_batches=None, max_epochs=1, callbacks=[progress_bar])
         trainer.fit(
             model=model,
-            train_dataloaders=DataLoader(train_dataset.get_train_subset(), batch_size=32),
+            train_dataloaders=DataLoader(train_dataset.subset_from_include_mask(), batch_size=32),
             val_dataloaders=DataLoader(vds, batch_size=1000),
         )
 
         if plot_confusion_matrix:
             confusion_matrix = model.conf_matrix.compute()
-            plt.imshow(confusion_matrix)
+            plt.imshow(confusion_matrix.T)
+            plt.title("Confusion Matrix")
+            plt.xlabel("predicted_label")
+            plt.ylabel("true label")
 
         precision = model.precision.compute().numpy()
         recall = model.recall.compute().numpy()
@@ -54,8 +57,7 @@ class ScoreTracker:
         )
 
         self.all_attempts.append(attempt)
-
-        return attempt
+        return model
 
     def plot_scores(self):
 

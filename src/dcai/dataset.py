@@ -9,6 +9,41 @@ from torch.utils.data import Dataset
 
 
 class TrainDataset(Dataset):
+    """Your working train data set.
+
+    This class loads MNIST data and maps the true label 7 to given label 1.
+
+    You can buy an annotation using (this will cost you two annotations):
+    ```
+    train_dataset.buy_annotation([1, 2])
+    ```
+    Obviously, it does not make sense to buy annotations for data points that have a given label other than 1.
+    You are responsible for not making this mistake.
+
+    You can exclude a data point using:
+    ```
+    train_dataset.exclude_datapoints([4012, 2031])
+    ```
+    These data points will not be used when fitting the model in the ScoreTracker function. This is intended for:
+     * excluding data points for which the labels could be wrong
+     * class balancing
+
+    ⚠️ IMPORTANT: the data points that you exclude are still part of the dataset. This means you can expect
+    `train_dataset.x`, `train_dataset.y`, `len(train_dataset)`, etc. to be identical to the values before the operation.
+    Only if you use the `train_dataset.subset_from_include_mask()`, you will get a subset.
+
+    A data point can be (re-)included by:
+    ```
+    train_dataset.include_datapoints([4012])
+    ```
+
+    You can flush all masked values using a boolean mask. A common usage is:
+    ```
+    bool_mask = train_dataset.y != 1  # at least same length as the number of samples in train
+    train_dataset.set_include_mask(bool_mask)
+    train_dataset.include_datapoints(train_dataset.annotations_bought)
+    ```
+    """
 
     def __init__(self):
         super().__init__()
@@ -44,7 +79,11 @@ class TrainDataset(Dataset):
         raise ValueError("Cheater!")
 
     @property
-    def labels(self):
+    def x(self):
+        return self._x
+
+    @property
+    def y(self):
         return self._y_current
 
     def buy_annotation(self, sample_id: List[int]) -> TrainDataset:
@@ -56,6 +95,10 @@ class TrainDataset(Dataset):
         self._y_current[sample_id] = self._y_original[sample_id]
         return self
 
+    def set_include_mask(self, include_mask: List[bool]) -> TrainDataset:
+        self._include_mask = np.array(include_mask)
+        return self
+
     def include_datapoints(self, sample_ids: List[int]) -> TrainDataset:
         self._include_mask[np.array(sample_ids)] = True
         return self
@@ -64,7 +107,7 @@ class TrainDataset(Dataset):
         self._include_mask[np.array(sample_ids)] = False
         return self
 
-    def get_train_subset(self) -> Dataset:
+    def subset_from_include_mask(self) -> Dataset:
         return TrainDataSubSet(self._x[self._include_mask], self._y_current[self._include_mask])
 
 
