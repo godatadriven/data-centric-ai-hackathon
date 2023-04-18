@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 
 import pytorch_lightning as pl
 from matplotlib import pyplot as plt
@@ -11,7 +11,7 @@ from dcai.model import LitSimpleMnist
 
 
 @dataclass
-class Attempt:
+class Metrics:
     n_annotations_bought: int
     precision_class_1: float
     recall_class_1: float
@@ -23,9 +23,10 @@ class ScoreTracker:
 
     def __init__(self, team_name: str):
         self.team_name = team_name
-        self.all_attempts: List[Attempt] = []
+        self.all_attempts: List[Metrics] = []
 
-    def train_and_score_model(self, train_dataset: TrainDataset, plot_confusion_matrix: bool = True) -> LitSimpleMnist:
+    def train_and_score_model(self, train_dataset: TrainDataset, plot_confusion_matrix: bool = True) -> Tuple[
+        LitSimpleMnist, Metrics]:
 
         progress_bar = RichProgressBar()
 
@@ -48,7 +49,7 @@ class ScoreTracker:
         precision = model.precision.compute().numpy()
         recall = model.recall.compute().numpy()
 
-        attempt = Attempt(
+        attempt = Metrics(
             n_annotations_bought=len(train_dataset.annotations_bought),
             precision_class_1=precision[1],
             recall_class_1=recall[1],
@@ -57,7 +58,7 @@ class ScoreTracker:
         )
 
         self.all_attempts.append(attempt)
-        return model
+        return model, attempt
 
     def plot_scores(self):
 
