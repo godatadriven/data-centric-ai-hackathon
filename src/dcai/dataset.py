@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import List
 
 import numpy as np
 import torchvision
 from loguru import logger
 from torch.utils.data import Dataset
+
+REPO_ROOT = Path(__file__).parent.parent.parent.absolute()
+DATA_ROOT = REPO_ROOT / "data"
 
 
 class TrainDataset(Dataset):
@@ -50,13 +54,15 @@ class TrainDataset(Dataset):
 
         self.label_mapping = {7: 1}
 
-        dataset = torchvision.datasets.MNIST("../../data/", train=True, download=True)
+        dataset = torchvision.datasets.MNIST(str(DATA_ROOT), train=True, download=True)
         self._x = dataset.data
         self._y_original = dataset.targets.numpy()
-        self._y_current = np.array([
-            y if y not in self.label_mapping else self.label_mapping[y]
-            for y in self._y_original
-        ])
+        self._y_current = np.array(
+            [
+                y if y not in self.label_mapping else self.label_mapping[y]
+                for y in self._y_original
+            ]
+        )
         self._annotations_bought = []
         self._include_mask = np.array([True] * len(self._x))
 
@@ -87,9 +93,10 @@ class TrainDataset(Dataset):
         return self._y_current
 
     def buy_annotation(self, sample_id: List[int]) -> TrainDataset:
-
         if sample_id in self._annotations_bought:
-            logger.warning(f"You already bought an annotation for sample with ID {sample_id}!")
+            logger.warning(
+                f"You already bought an annotation for sample with ID {sample_id}!"
+            )
 
         self._annotations_bought.append(sample_id)
         self._y_current[sample_id] = self._y_original[sample_id]
@@ -108,11 +115,12 @@ class TrainDataset(Dataset):
         return self
 
     def subset_from_include_mask(self) -> Dataset:
-        return TrainDataSubSet(self._x[self._include_mask], self._y_current[self._include_mask])
+        return TrainDataSubSet(
+            self._x[self._include_mask], self._y_current[self._include_mask]
+        )
 
 
 class TrainDataSubSet(Dataset):
-
     def __init__(self, x, y):
         self._x = x
         self._y = y
@@ -125,11 +133,10 @@ class TrainDataSubSet(Dataset):
 
 
 class ValidationDataset(Dataset):
-
     def __init__(self):
         super().__init__()
 
-        dataset = torchvision.datasets.MNIST("../../data/", train=False, download=True)
+        dataset = torchvision.datasets.MNIST(str(DATA_ROOT), train=False, download=True)
         self._x = dataset.data
         self._y = dataset.targets
 
