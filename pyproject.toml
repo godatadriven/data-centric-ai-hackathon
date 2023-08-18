@@ -15,12 +15,17 @@ dependencies = [
     "torchvision",
     "torchaudio",
     "lightning",
-    "jupyterlab",
     "loguru",
-    "matplotlib",
-    "ipywidgets",
     "pandas",
     "scikit-learn",
 ]
+
+[optional-dependencies]
+notebook=[
+    "jupyterlab",
+    "matplotlib",
+    "ipywidgets",
+]
+
 
 dynamic = ["version"]

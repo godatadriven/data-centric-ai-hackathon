@@ -38,10 +38,12 @@ Some ideas that the participant might explore are:
 
 ## Setting up
 
+Below are the instructions for installing the package and libraries on your laptop. Consider the section below if you run into issues.
+
 ```shell
 python3.10 -m venv venv
 source venv/bin/activate
-pip install -e .
+pip install -e '.[notebook]'
 ```
 
 Start Jupyter notebook (an example notebook is given in `notebooks/example-naive-annotations.ipynb`)
@@ -49,6 +51,20 @@ Start Jupyter notebook (an example notebook is given in `notebooks/example-naive
 ```shell
 jupyter lab .
 ```
+
+### Running into issues?
+
+Option 1: Colaboratory
+* Goto [colab.research.google.com](colab.research.google.com) and start a notebook there. 
+* Download the code as a zip file from github. Upload that in the directory where your notebook is running.
+* Unzip the file by executing:
+    ```shell 
+    !unzip filename.zip
+    ```
+*  Install the package by running (do not install the notebook dependencies):
+   ```shell
+   ! pip install -e . 
+   ```
 
 ## Rules
 
