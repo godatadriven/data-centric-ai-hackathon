@@ -38,10 +38,12 @@ Some ideas that the participant might explore are:
 
 ## Setting up
 
+Below are the instructions for installing the package and libraries on your laptop. Consider the section below if you run into issues.
+
 ```shell
 python3.10 -m venv venv
 source venv/bin/activate
-pip install -e .
+pip install -e '.[notebook]'
 ```
 
 Start Jupyter notebook (an example notebook is given in `notebooks/example-naive-annotations.ipynb`)
@@ -50,11 +52,36 @@ Start Jupyter notebook (an example notebook is given in `notebooks/example-naive
 jupyter lab .
 ```
 
+### Running into issues when installing the packages?
+
+Option 1: Colaboratory
+
+* Goto [colab.research.google.com](colab.research.google.com).
+* Start a notebook by uploading one of the example notebooks (`file`->`upload notebook`).
+* Download the code as a zip file from github. Upload that in the directory `content` (this is where your notebook is running) on colaboratory.
+* Add the following two cells at the top of the notebook.
+	* Unzip the file by executing:
+	
+    ```shell 
+    !unzip filename_of_zip.zip
+    ```
+	*  Install the package by running (do not install the notebook dependencies):
+	
+   ```shell
+   !pip install filename_of_zip/
+   ```
+
 ## Rules
 
 Cheating is easy! Just download the original MNIST data set or download a pre-fitted model are two examples. Keep in
 mind that the goal of the hackathon is to get experience with data centric AI. If one of your solutions feels like 
-cheating, consider the following: would you be able to perform this trick when the data set was not available online?
+cheating, it is cheating 🙂
+
+## Some ideas
+
+* Use an unsupervised learning technique such as clustering. Use this clustering as an initial method for getting the initial labels.
+* Use an existing tool to help you with it. Consider installing [`bulk`](https://github.com/koaning/bulk).
+* Go nuts: implement [active learning](https://www.datacamp.com/tutorial/active-learning) yourself.
 
 
 

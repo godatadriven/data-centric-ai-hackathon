@@ -8,6 +8,7 @@ name = "data-centric-ai-hackathon"
 description = "Data Centric AI Hackathon"
 readme = "README.md"
 requires-python = "==3.10.*"
+version = "0.0.0"
 
 # Note: This is the minimum set of packages required to pass all the tests and to support end-to-end-stream.
 dependencies = [
@@ -15,11 +16,17 @@ dependencies = [
     "torchvision",
     "torchaudio",
     "lightning",
-    "jupyterlab",
     "loguru",
+    "pandas",
+    "scikit-learn",
+]
+
+[project.optional-dependencies]
+notebook=[
+    "jupyterlab",
     "matplotlib",
     "ipywidgets",
-    "pandas",
 ]
+
 
 dynamic = ["version"]
