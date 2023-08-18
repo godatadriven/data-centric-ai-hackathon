@@ -52,18 +52,23 @@ Start Jupyter notebook (an example notebook is given in `notebooks/example-naive
 jupyter lab .
 ```
 
-### Running into issues?
+### Running into issues when installing the packages?
 
 Option 1: Colaboratory
-* Goto [colab.research.google.com](colab.research.google.com) and start a notebook there. 
-* Download the code as a zip file from github. Upload that in the directory where your notebook is running.
-* Unzip the file by executing:
+
+* Goto [colab.research.google.com](colab.research.google.com).
+* Start a notebook by uploading one of the example notebooks (`file`->`upload notebook`).
+* Download the code as a zip file from github. Upload that in the directory `content` (this is where your notebook is running) on colaboratory.
+* Add the following two cells at the top of the notebook.
+	* Unzip the file by executing:
+	
     ```shell 
-    !unzip filename.zip
+    !unzip filename_of_zip.zip
     ```
-*  Install the package by running (do not install the notebook dependencies):
+	*  Install the package by running (do not install the notebook dependencies):
+	
    ```shell
-   ! pip install -e . 
+   !pip install filename_of_zip/
    ```
 
 ## Rules
