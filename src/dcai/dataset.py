@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
+from typing import Iterable
 from typing import List
 
 import numpy as np
@@ -92,7 +94,10 @@ class TrainDataset(Dataset):
     def y(self):
         return self._y_current
 
-    def buy_annotation(self, sample_id: List[int]) -> TrainDataset:
+    def buy_annotation(self, sample_id: int) -> int:
+        if not isinstance(sample_id, (int, np.integer)):
+            raise TypeError("Type of `sample_id` should be int. Use buy_annotations (plural) if you want to buy more than one annotation at once.")
+
         if sample_id in self._annotations_bought:
             logger.warning(
                 f"You already bought an annotation for sample with ID {sample_id}!"
@@ -100,7 +105,14 @@ class TrainDataset(Dataset):
 
         self._annotations_bought.append(sample_id)
         self._y_current[sample_id] = self._y_original[sample_id]
-        return self
+        return self._y_current[sample_id]
+
+    def buy_annotations(self, sample_ids: Iterable[int]) -> List[int]:
+        if not hasattr(sample_ids, '__iter__'):
+            raise TypeError("Type of `sample_id` should be iterable of type int.")
+
+        labels = [self.buy_annotation(sample_id) for sample_id in sample_ids]
+        return labels
 
     def set_include_mask(self, include_mask: List[bool]) -> TrainDataset:
         self._include_mask = np.array(include_mask)

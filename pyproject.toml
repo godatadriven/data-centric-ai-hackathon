@@ -20,6 +20,7 @@ dependencies = [
     "matplotlib",
     "ipywidgets",
     "pandas",
+    "scikit-learn",
 ]
 
 dynamic = ["version"]

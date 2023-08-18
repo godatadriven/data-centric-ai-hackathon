@@ -54,7 +54,13 @@ jupyter lab .
 
 Cheating is easy! Just download the original MNIST data set or download a pre-fitted model are two examples. Keep in
 mind that the goal of the hackathon is to get experience with data centric AI. If one of your solutions feels like 
-cheating, consider the following: would you be able to perform this trick when the data set was not available online?
+cheating, it is cheating 🙂
+
+## Some ideas
+
+* Use an unsupervised learning technique such as clustering. Use this clustering as an initial method for getting the initial labels.
+* Use an existing tool to help you with it. Consider installing [`bulk`](https://github.com/koaning/bulk).
+* Go nuts: implement [active learning](https://www.datacamp.com/tutorial/active-learning) yourself.
 
 
 
