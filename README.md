@@ -1,12 +1,6 @@
 # Data Centric AI hackathon
 
-There is a lot of buzz around data centric AI, but we're not an authority in it... yet! Let’s boost our skills in this
-hackathon.
-
-If this hackathon is a success, we might spin it into a code breakfast, workshop, training, competition a la Dropblocks,
-etc., so please participate and give me feedback on the hackathon!
-
-I'll bring some starter code and ideas to get you going fast.
+Let’s boost our data centric AI skills in this hackathon. I'll bring some starter code and ideas to get you going fast.
 
 Note: The hackathon is not limited to DS/MLE -- as long as you like coding and optimisation, you should be good to go!
 
@@ -82,6 +76,3 @@ cheating, it is cheating 🙂
 * Use an unsupervised learning technique such as clustering. Use this clustering as an initial method for getting the initial labels.
 * Use an existing tool to help you with it. Consider installing [`bulk`](https://github.com/koaning/bulk).
 * Go nuts: implement [active learning](https://www.datacamp.com/tutorial/active-learning) yourself.
-
-
-
